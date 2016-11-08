@@ -1,0 +1,7 @@
+# Ignorar os arquivos .bak e a pasta work, que é específica de cada instalação do MultiSim
+
+*.bak
+*.mti
+*.mpf
+*.wlf
+work
