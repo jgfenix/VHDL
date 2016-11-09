@@ -3,15 +3,15 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity flipflopD is --descrição do hardware: entradas e saídas
-	port(RST, CK, D: in std_logic; Q, NQ: out std_logic);
+	port(RST, ENABLE_IN, CK, D: in std_logic; Q, NQ: out std_logic);
 end flipflopD;
 
 architecture algoritmica of flipflopD is
 begin
-	process(RST, CK)
+	process(RST, CK, ENABLE_IN)
 	begin
 		if (RST = '0') then Q <= '0'; NQ <= '1';
-		elsif (CK = '1' and CK'event) then
+		elsif (CK = '1' and CK'event and ENABLE_IN = '1') then
 			if D = '1' then	
 				Q <= '1';
 				NQ <= '0';
