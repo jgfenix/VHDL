@@ -7,19 +7,25 @@ entity flipflopD is --descrição do hardware: entradas e saídas
 end flipflopD;
 
 architecture algoritmica of flipflopD is
+signal old_D: std_logic; --usado para persistir D anterior
+-- para evitar que quando o clock passar por outro ciclo, nao carregue o valor da saida do
+-- barramento em D
 begin
-	process(RST, CK, ENABLE_IN)
+	process(RST, CK, D, ENABLE_IN)
 	begin
+		if (ENABLE_IN = '1') then
+			old_D <= D;
+		end if;
+
 		if (RST = '0') then Q <= '0'; NQ <= '1';
+ 
 		elsif (CK = '1' and CK'event and ENABLE_IN = '1') then
-			if D = '1' then	
-				Q <= '1';
-				NQ <= '0';
-			else		
-				Q <= '0';
-				NQ <= '1';
-			end if;		
-		end if;		
+			Q <= D;
+			NQ <= not(D);
+		elsif (CK = '1' and CK'event and ENABLE_IN = '0') then	--persistir um valor anterior da entrada D
+			Q <= old_D;
+			NQ <= not(old_D);
+		end if;	
 	end process;
 end algoritmica;
 
