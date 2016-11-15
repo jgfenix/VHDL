@@ -16,5 +16,5 @@ begin
 	teste_teste_MAR: RegistradorMAR16b port map(sigin, ENABLE_IN, sigout);
 	
 	sigin <= "0101010101010101";
-	ENABLE_IN <= '1';
+	ENABLE_IN <= '0', '1' after 10 ns, '0' after 20 ns;
 end teste;
